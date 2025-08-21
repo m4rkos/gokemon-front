@@ -1,5 +1,7 @@
 # gokemon-front
 
+![gokemon](src/assets/img/thumb_app_gokemon.png)
+
 Angular frontend app to get and pokemon data like the pokedex!
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
