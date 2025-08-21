@@ -1,0 +1,103 @@
+<ng-container *ngIf="pokemon as p">
+  <section class="poke-card" [attr.data-type-primary]="p?.types?.[0]?.type?.name">
+    <header class="poke-header">
+      <div class="title">
+        <h1>{{ p.name | titlecase }}</h1>
+        <span class="id">#{{ p.id }}</span>
+      </div>
+      <div class="type-chips">
+        <span
+          class="type-chip"
+          *ngFor="let t of p.types"
+          [attr.data-type]="t.type.name"
+        >
+          {{ t.type.name | titlecase }}
+        </span>
+      </div>
+    </header>
+
+    <div class="media-and-meta">
+      <figure class="artwork">
+        <img
+          [src]="p?.sprites?.other?.['official-artwork']?.front_default || p?.sprites?.front_default"
+          [alt]="p?.name"
+          loading="lazy"
+        />
+      </figure>
+
+      <ul class="meta">
+        <li><span>Base XP</span><strong>{{ p.base_experience }}</strong></li>
+        <li><span>Altura</span><strong>{{ p.height / 10 }} m</strong></li>
+        <li><span>Peso</span><strong>{{ p.weight / 10 }} kg</strong></li>
+        <li><span>Ordem</span><strong>{{ p.order }}</strong></li>
+        <li><span>Default?</span><strong>{{ p.is_default ? 'Sim' : 'Não' }}</strong></li>
+        <li *ngIf="p.species?.name"><span>Espécie</span><strong>{{ p.species.name | titlecase }}</strong></li>
+        <li class="cry" *ngIf="p.cries?.latest">
+          <app-pokemon-detail [pokemon]="p"></app-pokemon-detail>
+        </li>
+      </ul>
+    </div>
+
+    <section class="abilities" *ngIf="p.abilities?.length">
+      <h2>Habilidades</h2>
+      <div class="ability-list">
+        <div class="ability" *ngFor="let a of p.abilities">
+          <span class="name">{{ a?.ability?.name | titlecase }}</span>
+          <span class="badge" *ngIf="a.is_hidden">Hidden</span>
+          <span class="slot">Slot {{ a.slot }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats" *ngIf="p.stats?.length">
+      <h2>Stats</h2>
+      <div class="stat" *ngFor="let s of p.stats">
+        <div class="stat-row">
+          <span class="stat-name">{{ s?.stat?.name | titlecase }}</span>
+          <span class="stat-value">{{ s.base_stat }}</span>
+        </div>
+        <div class="progress">
+          <div
+            class="bar"
+            [style.width.%]="(s.base_stat / 255) * 100"
+            [attr.aria-valuenow]="s.base_stat"
+            aria-valuemin="0"
+            aria-valuemax="255"
+          ></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sprites">
+      <h2>Sprites</h2>
+      <div class="sprite-grid">
+        <img *ngIf="p.sprites?.front_default" [src]="p.sprites.front_default" alt="front_default" loading="lazy" />
+        <img *ngIf="p.sprites?.back_default" [src]="p.sprites.back_default" alt="back_default" loading="lazy" />
+        <img *ngIf="p.sprites?.front_shiny" [src]="p.sprites.front_shiny" alt="front_shiny" loading="lazy" />
+        <img *ngIf="p.sprites?.back_shiny" [src]="p.sprites.back_shiny" alt="back_shiny" loading="lazy" />
+        <img *ngIf="p.sprites?.other?.home?.front_default" [src]="p.sprites.other.home.front_default" alt="home_front" loading="lazy" />
+        <img *ngIf="p.sprites?.other?.home?.front_shiny" [src]="p.sprites.other.home.front_shiny" alt="home_front_shiny" loading="lazy" />
+        <img *ngIf="p.sprites?.other?.dream_world?.front_default" [src]="p.sprites.other.dream_world.front_default" alt="dream_world" loading="lazy" />
+        <img *ngIf="p.sprites?.other?.['official-artwork']?.front_shiny" [src]="p.sprites.other['official-artwork'].front_shiny" alt="official_art_shiny" loading="lazy" />
+      </div>
+      <small class="hint">* Alguns sprites podem não existir para todos os Pokémon.</small>
+    </section>
+
+    <section class="moves" *ngIf="p.moves?.length">
+      <h2>Movimentos (amostra)</h2>
+      <div class="move-chips">
+        <span class="move" *ngFor="let m of p.moves | slice:0:24">
+          {{ m?.move?.name | titlecase }}
+        </span>
+      </div>
+    </section>
+  </section>
+</ng-container>
+
+<!-- Estado vazio / loading -->
+<ng-container *ngIf="!pokemon">
+  <div class="empty">
+    <div class="skeleton-card"></div>
+    <p>Selecione ou busque um Pokémon…</p>
+  </div>
+</ng-container>
