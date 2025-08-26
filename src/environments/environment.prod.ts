@@ -1,5 +1,5 @@
 export const environment = {
-    _api_base: 'http://localhost:8080/',
+    _api_base: 'http://gokemon-app:8080/',
     get api_base() {
         return this._api_base;
     },
