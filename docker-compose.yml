@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  angular-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gokemon-front-image
+    container_name: gokemon-front-container
+    ports:
+      - "4200:80" # Porta externa 4200 (host) → interna 80 (nginx do container)
+    restart: always
