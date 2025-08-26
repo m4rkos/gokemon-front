@@ -10,3 +10,8 @@ services:
     ports:
       - "4200:80" # Porta externa 4200 (host) → interna 80 (nginx do container)
     restart: always
+
+networks:
+  default:
+    external:
+      name: app-shared-net
